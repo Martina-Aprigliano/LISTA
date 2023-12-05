@@ -1,0 +1,24 @@
+drop database if exists LIST_PLAYERS;
+create database LIST_PLAYERS;
+use LIST_PLAYERS;
+
+create table TEAMS(
+	id int primary key auto_increment,
+    nome varchar(10)
+);
+
+create table PLAYERS(
+	id int primary key auto_increment,
+    nickname  varchar(20),
+    nome varchar(50), 
+    cognome varchar(50),
+    id_team int
+);
+
+insert into TEAMS(nome) values ('Team BLU');
+insert into TEAMS(nome) values ('Team ROSSO');
+insert into TEAMS(nome) values ('Team VERDE');
+
+insert into PLAYERS(nickname, nome, cognome, id_team) values('MARIONE', 'mario', 'rossi', 1);
+insert into PLAYERS(nickname, nome, cognome, id_team) values('GIGGI', 'luigi', 'verdi', 2);
+insert into PLAYERS(nickname, nome, cognome, id_team) values('SANDRINO', 'sandro', 'bianchi', 3);

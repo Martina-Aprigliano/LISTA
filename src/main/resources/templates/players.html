@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Document</title>
+    <script src="risorse/js/players.js"></script>
+    <link rel="stylesheet" href="risorse/css/players.css">
+</head>
+
+<body onload="init()">
+	
+	<a href="/">HOME</a>
+
+    <h1>Lista Players</h1>
+    <button id="btn-new-player">Aggiungi Player</button>
+    <button id="btn-new-team">Aggiungi Team</button>
+    <!-- Lista Player -->
+
+    <ul >
+		<!-- il "$" serve a far capire da che model andare a prendere-->
+		
+		<li th:each="entry: ${listaPlayers}">
+			<p th:text="${entry.value.toString}"></p>
+			<button 
+				th:data-id="${entry.key}" 
+				th:data-nickname="${entry.value.nickname}" 
+				th:data-nome="${entry.value.nome}" 
+				th:data-cognome="${entry.value.cognome}" 
+				th:data-team-id="${entry.value.team.id}" 
+				onclick="renderDettPlayer(this)">Dettaglio
+			</button>
+			<form action="/delPlayer" method="post" onsubmit="if(!confirm('Vuoi davvero eliminare ?')){return false;}">
+				<input type="hidden" name="id" th:value="${entry.key}">
+				<button>Elimina</button>
+			</form>
+		</li>
+    </ul>
+
+
+    <!-- modale newPlayers -->
+    <div id="modal-new-player" class="modal-back">
+        <div class="modal-content">
+            <span id="close-modal-new" class="close">X</span>
+            <form action="/addPlayer" method="post">
+	            <input type="text" name="nickname" placeholder="Inserisci Nickname" required><br>
+	            <input type="text" name="nome" placeholder="Inserici Nome" required><br>
+	            <input type="text" name="cognome" placeholder="Inserisci Cognome" required><br>
+	            <select name="idteam" required>
+					<option value="" disabled selected>-- Seleziona</option>
+					<option value="1">Blu</option>
+					<option value="2">Rosso</option>
+					<option value="3">Verde</option>
+	            </select><br>
+	            <button type="submit">Inserisci Nuovo Player</button>
+	            <button onclick="pulisciNewPlayer()">Pulisci</button>				
+			</form>
+        </div>
+    </div>
+
+    <!-- modale newTeam -->
+    <div id="modal-new-team" class="modal-back">
+        <div class="modal-content">
+            <span id="close-modal-new-team" class="close">X</span>
+            <input type="text" id="new-nome-team" placeholder="Inserici Nome TEAM"><br>
+            <button onclick="addNewTeam()">Inserisci Nuovo Team</button>
+            <button onclick="pulisciNewTeam()">Pulisci</button>
+        </div>
+    </div>
+
+    <!-- modale dettPlayer -->
+    <div id="modal-dett-player" class="modal-back">
+        <div class="modal-content">
+            <span id="close-modal-dett" class="close">X</span>
+            <form action="/modPlayer" method="post" onsubmit="if(!confirm('Vuoi davvero modificare ?')){return false;}">
+				<input type="hidden" name="id" id="mod-id">
+				<input type="text" name="nickname" id="mod-nickname" placeholder="Inserisci Nickname" required><br>
+				<input type="text" name="nome" id="mod-nome" placeholder="Inserici Nome" required><br>
+				<input type="text" name="cognome" id="mod-cognome" placeholder="Inserisci Cognome" required><br>
+				<select name="idteam" id="mod-id-team" required>
+				    <option value="" disabled selected>-- Seleziona</option>
+				    <option value="1">Blu</option>
+				    <option value="2">Rosso</option>
+				    <option value="3">Verde</option>
+				</select><br>
+	            <button type="submit">Modifica Player</button>
+	            <button onclick="pulisciModPlayer()">Pulisci</button>
+			</form>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
